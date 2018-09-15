@@ -1,5 +1,5 @@
 import React from 'react'
-import { hydrate } from 'react-dom'
+import { hydrate, render } from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import * as stores from '../stores'
@@ -15,4 +15,6 @@ const Root = () => (
   </Provider>
 )
 
-hydrate(<Root />, document.getElementById('root'))
+const renderMethod = process.env.NODE_ENV === 'production' ? hydrate : render
+
+renderMethod(<Root />, document.getElementById('root'))
