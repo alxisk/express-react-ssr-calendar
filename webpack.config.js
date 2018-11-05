@@ -16,6 +16,7 @@ const clientConfig = {
   devtool: process.env.NODE_ENV === 'production' ? null : 'eval-source-map',
   stats: 'minimal',
   devServer: {
+    historyApiFallback: true,
     contentBase: bundlePath,
     port: 4000,
   },
