@@ -8,32 +8,35 @@ import MonthTable from './components/MonthTable'
 @inject('notesStore')
 @observer
 class Calendar extends Component {
-  @observable
-  monthOffset = 0
+  componentDidMount() {
+    this.fetchNotes()
+  }
 
-  @computed
-  get date() {
-    if (this.monthOffset < 0) {
-      return moment().subtract(this.monthOffset * -1, 'months')
-    } else if (this.monthOffset > 0) {
-      return moment().add(this.monthOffset, 'month')
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.fetchNotes()
     }
-
-    return moment()
   }
 
-  @computed
-  get daysInCurrentMonth() {
-    return this.date.endOf('month').date()
+  fetchNotes = () => {
+    const from = this.date.startOf('month').format()
+    const to = this.date.endOf('month').format()
+
+    this.props.notesStore.getNotes({ from, to })
   }
 
-  @computed
+  get date() {
+    const { date } = this.props.match.params
+    return date ? moment(date) : moment()
+  }
+
   get days() {
     const { notes } = this.props.notesStore
     const currentMonth = this.date.month()
     const currentYear = this.date.year()
+    const daysInCurrentMonth = this.date.endOf('month').date()
 
-    return Array.from({ length: this.daysInCurrentMonth }, (v, i) => {
+    return Array.from({ length: daysInCurrentMonth }, (v, i) => {
       const day = { num: i + 1 }
 
       const relatedNotes = notes.filter(note => {
@@ -43,7 +46,7 @@ class Calendar extends Component {
 
         const date = moment(note.date)
 
-        return date.date() === i && date.month() === currentMonth && date.year() === currentYear
+        return date.date() === i + 1 && date.month() === currentMonth && date.year() === currentYear
       })
 
       if (relatedNotes.length) {
@@ -54,28 +57,27 @@ class Calendar extends Component {
     })
   }
 
-  @action
-  decrementOffset = () => {
-    this.monthOffset -= 1
+  changeMonth = increment => {
+    const methodName = increment ? 'add' : 'subtract'
+    this.props.history.replace(`/${this.date[methodName](1, 'months').format('YYYY-MM')}`)
   }
 
-  @action
-  incrementOffset = () => (this.monthOffset += 1)
+  incrementMonth = () => this.changeMonth(true)
 
-  @computed
-  get notesLength() {
-    return this.props.notesStore.notes.length
-  }
+  decrementMonth = () => this.changeMonth()
 
   render() {
     return (
       <div>
-        Calendar <Link to="/somewhere">link to somewhere</Link>
+        <h2>{this.date.format('YYYY MMMM')}</h2>
         <MonthTable days={this.days} date={this.date} />
         <br />
-        <button onClick={this.decrementOffset}>previous month</button>
-        <button onClick={this.incrementOffset}>next month</button>
+        <button onClick={this.decrementMonth}>previous month</button>
+        <button onClick={this.incrementMonth}>next month</button>
         <br />
+        <Link to="/new-note">
+          <button type="button">add new note</button>
+        </Link>
       </div>
     )
   }
