@@ -25,17 +25,22 @@
   },
   "homepage": "https://gitlab.com/alxisk/express-react-ssr-calendar#README",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
     "mobx": "^5.0.4",
     "mobx-react": "^5.2.5",
     "moment": "^2.22.2",
+    "mongoose": "^5.3.7",
+    "node-fetch": "^2.2.0",
     "prop-types": "^15.6.2",
+    "query-string": "^6.2.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
