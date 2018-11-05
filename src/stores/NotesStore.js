@@ -1,25 +1,18 @@
 import { observable, action } from 'mobx'
+import { createNote, fetchNotes } from '../api'
 
 class NotesStore {
   @observable
-  // tmp
-  notes = [
-    {
-      id: 'abc',
-      date: '2018-08-21T17:45:36.468Z',
-      title: 'foo',
-      description: 'Lorem ipsum dolor.',
-    },
-    {
-      id: 'xyz',
-      date: '2018-08-13T17:45:36.468Z',
-      title: 'bar',
-      description: 'Sit amet, consectetur.',
-    },
-  ]
+  notes = []
 
   @action
-  addNote = note => this.notes.push(note)
+  addNote = note => createNote(note).then(newNote => this.notes.push(newNote))
+
+  @action
+  setNotes = notes => this.notes.replace(notes)
+
+  @action
+  getNotes = options => fetchNotes(options).then(notes => this.setNotes(notes))
 }
 
 export default NotesStore
