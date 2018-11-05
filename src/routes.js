@@ -1,5 +1,6 @@
 import Calendar from './views/Calendar'
-import Day from './views/Day'
+import NotesList from './views/NotesList'
+import NewNoteForm from './views/NewNote'
 
 const routes = [
   {
@@ -7,8 +8,16 @@ const routes = [
     component: Calendar,
   },
   {
+    path: '/new-note',
+    component: NewNoteForm,
+  },
+  {
+    path: '/notes/:date',
+    component: NotesList,
+  },
+  {
     path: '/:date',
-    component: Day,
+    component: Calendar,
   },
 ]
 
