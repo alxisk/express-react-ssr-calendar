@@ -3,12 +3,15 @@ import express from 'express'
 import path from 'path'
 import cors from 'cors'
 import proxy from 'http-proxy-middleware'
+import bodyParser from 'body-parser'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router'
 import { Provider, useStaticRendering } from 'mobx-react'
 import * as stores from '../stores'
 import App from '../views/App'
+import { connectDb } from './model'
+import noteRoutes from './noteRoutes'
 
 const app = express()
 
@@ -16,16 +19,22 @@ app.use(cors())
 
 useStaticRendering(true)
 
+connectDb()
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve('public')))
 } else {
   app.use(
-    proxy({
+    proxy('!/api/**', {
       target: 'http://localhost:4000',
       logLevel: 'error',
     })
   )
 }
+
+app.use(bodyParser.json())
+
+noteRoutes(app)
 
 app.get('*', (req, res) => {
   const context = {}
