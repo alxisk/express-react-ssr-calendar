@@ -21,3 +21,9 @@ export const fetchNotes = ({ from, to }) => {
     .then(res => res.json())
     .then(json => json.data)
 }
+
+export const fetchSingleNote = id => {
+  return fetch(`/api/notes?id=${id}`)
+    .then(res => res.json())
+    .then(json => json.data)
+}

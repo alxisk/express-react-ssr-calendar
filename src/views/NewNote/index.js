@@ -33,7 +33,7 @@ class NewNoteForm extends Component {
       text: this.text,
     }
 
-    this.props.notesStore.addNote(note).then(() => this.props.history.push('/'))
+    this.props.notesStore.addNewNote(note).then(() => this.props.history.push('/'))
   }
 
   render() {

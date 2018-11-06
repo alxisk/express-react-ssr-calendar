@@ -22,7 +22,9 @@ class NotesList extends Component {
           <ul>
             {notes.map(note => (
               <li key={note.id}>
-                <NotesListItem {...toJS(note)} />
+                <Link to={`/notes/${note.id}`}>
+                  <NotesListItem {...toJS(note)} />
+                </Link>
               </li>
             ))}
           </ul>

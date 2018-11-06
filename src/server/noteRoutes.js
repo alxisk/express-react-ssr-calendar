@@ -16,6 +16,19 @@ const addNote = (req, res) => {
 }
 
 const getNotes = (req, res) => {
+  const { id } = req.query
+
+  if (id) {
+    Note.findById(id)
+      .then(note =>
+        res.status(200).json({
+          data: note.toObject(),
+        })
+      )
+      .catch(handleError)
+    return
+  }
+
   const from = new Date(req.query.from)
   const to = new Date(req.query.to)
 
