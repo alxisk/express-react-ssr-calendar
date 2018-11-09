@@ -23,7 +23,13 @@ export const fetchNotes = ({ from, to }) => {
 }
 
 export const fetchSingleNote = id => {
-  return fetch(`/api/notes?id=${id}`)
+  return fetch(`/api/notes/${id}`)
     .then(res => res.json())
     .then(json => json.data)
+}
+
+export const deleteNote = id => {
+  return fetch(`/api/notes/${id}`, {
+    method: 'DELETE',
+  })
 }

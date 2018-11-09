@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx'
-import { createNote, fetchNotes, fetchSingleNote } from '../api'
+import { createNote, fetchNotes, fetchSingleNote, deleteNote } from '../api'
 
 class NotesStore {
   @observable
@@ -19,6 +19,10 @@ class NotesStore {
 
   @action
   addNewNote = note => createNote(note).then(newNote => this.notes.push(newNote))
+
+  @action
+  deleteNote = id =>
+    deleteNote(id).then(() => this.setNotes(this.notes.filter(note => note.id !== id)))
 }
 
 export default NotesStore

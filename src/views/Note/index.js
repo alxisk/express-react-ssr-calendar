@@ -9,6 +9,9 @@ class Note extends Component {
     this.props.notesStore.getSingleNote(this.noteId)
   }
 
+  deleteNote = () =>
+    this.props.notesStore.deleteNote(this.noteId).then(() => this.props.history.push('/'))
+
   get noteId() {
     return this.props.match.params.noteId
   }
@@ -27,6 +30,10 @@ class Note extends Component {
     return (
       <div>
         <h2>{title}</h2>
+        <div>
+          <button onClick={this.deleteNote}>delete</button>
+          <button>change</button>
+        </div>
         <p>{text}</p>
       </div>
     )

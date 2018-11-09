@@ -16,19 +16,6 @@ const addNote = (req, res) => {
 }
 
 const getNotes = (req, res) => {
-  const { id } = req.query
-
-  if (id) {
-    Note.findById(id)
-      .then(note =>
-        res.status(200).json({
-          data: note.toObject(),
-        })
-      )
-      .catch(handleError)
-    return
-  }
-
   const from = new Date(req.query.from)
   const to = new Date(req.query.to)
 
@@ -46,6 +33,18 @@ const getNotes = (req, res) => {
     .catch(handleError)
 }
 
+const getSingleNote = (req, res) => {
+  const { noteId } = req.params
+
+  Note.findById(noteId)
+    .then(note =>
+      res.status(200).json({
+        data: note.toObject(),
+      })
+    )
+    .catch(handleError)
+}
+
 const updateNote = (req, res) => {
   const { noteId } = req.params
 
@@ -57,7 +56,7 @@ const updateNote = (req, res) => {
 const deleteNote = (req, res) => {
   const { noteId } = req.params
 
-  Note.findByIdAndRemove(noteId, req.body.data)
+  Note.findByIdAndRemove(noteId)
     .then(() => res.sendStatus(204))
     .catch(handleError)
 }
@@ -65,6 +64,7 @@ const deleteNote = (req, res) => {
 const noteRoutes = app => {
   app.post('/api/notes', addNote)
   app.get('/api/notes', getNotes)
+  app.get('/api/notes/:noteId', getSingleNote)
   app.patch('/api/notes/:noteId', updateNote)
   app.delete('/api/notes/:noteId', deleteNote)
 }
