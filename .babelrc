@@ -12,6 +12,14 @@
     "react"
   ],
   "plugins": [
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "src": "./src"
+        }
+      }
+    ],
     "transform-decorators-legacy",
     "transform-object-rest-spread",
     "transform-class-properties",
