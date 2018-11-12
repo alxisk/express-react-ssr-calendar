@@ -1,13 +1,17 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import routes from '../routes'
+import routes from 'src/routes'
 
 const App = () => (
-  <Switch>
-    {routes.map((route, idx) => (
-      <Route key={idx} {...route} />
-    ))}
-  </Switch>
+  <div className="grid-container">
+    <div className="page-content">
+      <Switch>
+        {routes.map((route, idx) => (
+          <Route key={idx} {...route} />
+        ))}
+      </Switch>
+    </div>
+  </div>
 )
 
 export default App

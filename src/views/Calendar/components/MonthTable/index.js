@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import chunk from 'lodash/chunk'
 import moment from 'moment'
-import { Link } from 'react-router-dom'
+import MonthTableCell from './components/MonthTableCell'
 
 const MonthTable = ({ days, date }) => {
   const offset = moment(date)
@@ -11,23 +11,15 @@ const MonthTable = ({ days, date }) => {
   const daysWithOffset = Array.from({ length: offset - 1 }).concat(days)
 
   return (
-    <table>
-      <tbody>
-        {chunk(daysWithOffset, 7).map((week, idx) => (
-          <tr key={idx}>
-            {week.map((day = {}, idx) => (
-              <td key={idx}>
-                {day.num ? (
-                  <Link to={`/notes/${date.date(day.num).format('YYYY-MM-DD')}`}>
-                    <button style={{ color: day.notes ? 'crimson' : 'black' }}>{day.num}</button>
-                  </Link>
-                ) : null}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="month-table">
+      {chunk(daysWithOffset, 7).map((week, idx) => (
+        <div className="month-table__row" key={idx}>
+          {week.map(
+            (day = {}, idx) => (day.num ? <MonthTableCell key={idx} date={date} day={day} /> : null)
+          )}
+        </div>
+      ))}
+    </div>
   )
 }
 

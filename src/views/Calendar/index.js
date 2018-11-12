@@ -3,7 +3,9 @@ import { computed, observable, action, trace } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
+import MonthChanger from './components/MonthChanger'
 import MonthTable from './components/MonthTable'
+import Button from 'src/views/common/Button'
 
 @inject('notesStore')
 @observer
@@ -57,26 +59,13 @@ class Calendar extends Component {
     })
   }
 
-  changeMonth = increment => {
-    const methodName = increment ? 'add' : 'subtract'
-    this.props.history.replace(`/${this.date[methodName](1, 'months').format('YYYY-MM')}`)
-  }
-
-  incrementMonth = () => this.changeMonth(true)
-
-  decrementMonth = () => this.changeMonth()
-
   render() {
     return (
-      <div>
-        <h2>{this.date.format('YYYY MMMM')}</h2>
+      <div className="calendar">
+        <MonthChanger date={this.date} />
         <MonthTable days={this.days} date={this.date} />
-        <br />
-        <button onClick={this.decrementMonth}>previous month</button>
-        <button onClick={this.incrementMonth}>next month</button>
-        <br />
         <Link to="/new-note">
-          <button type="button">add new note</button>
+          <Button fluid color="green" content="add new note" />
         </Link>
       </div>
     )
