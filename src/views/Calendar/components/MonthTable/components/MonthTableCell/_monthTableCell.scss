@@ -1,0 +1,24 @@
+.month-table-cell {
+  padding: 15px 0;
+  width: 50px;
+  background: white;
+  transition: background 0.3s;
+
+  &:hover {
+    background: darken(white, 5%);
+  }
+
+  &--active {
+    font-weight: 600;
+    color: white;
+    background: $btnBlue;
+
+    &:hover {
+      background: darken($btnBlue, 5%);
+    }
+
+    &:focus {
+      background: darken($btnBlue, 10%);
+    }
+  }
+}

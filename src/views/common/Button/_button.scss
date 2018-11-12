@@ -1,0 +1,32 @@
+.btn {
+  padding: 7px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: $btnDefault;
+
+  &:hover {
+    background: darken($btnDefault, 5%);
+  }
+
+  &:focus {
+    background: darken($btnDefault, 10%);
+  }
+
+  &--green {
+    color: white;
+    background: $btnGreen;
+
+    &:hover {
+      background: darken($btnGreen, 5%);
+    }
+
+    &:focus {
+      background: darken($btnGreen, 10%);
+    }
+  }
+
+  &--fluid {
+    width: 100%;
+  }
+}

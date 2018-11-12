@@ -1,0 +1,14 @@
+@import './components/MonthTableCell/_monthTableCell';
+
+.month-table {
+  width: 100%;
+  background: $btnDefault;
+
+  &__row {
+    display: flex;
+
+    &:first-child {
+      justify-content: flex-end;
+    }
+  }
+}

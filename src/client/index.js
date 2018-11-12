@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import * as stores from '../stores'
 import App from '../views/App'
+import '../styles/index.scss'
 
 const Root = () => (
   <Provider {...stores}>
