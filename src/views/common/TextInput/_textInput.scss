@@ -1,0 +1,28 @@
+.text-input {
+  display: block;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+  width: 100%;
+  border-bottom: 1px solid $inputBorder;
+  background: transparent;
+
+  &:focus {
+    border-bottom: 1px solid $btnBlue;
+  }
+
+  &--area {
+    padding: 10px 5px;
+    height: 100px;
+    border: 1px solid $inputBorder;
+    resize: none;
+
+    &:focus {
+      border: 1px solid $btnBlue;
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 10px;
+  }
+}

@@ -15,11 +15,21 @@ body {
   background: $bgMain;
 }
 
-button {
-  font-family: $baseFont;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea {
   color: $textBlack;
   border: none;
   outline: none;
+}
+
+button {
   cursor: pointer;
   user-select: none;
 }

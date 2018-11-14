@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { observable, action } from 'mobx'
+import { observable, action, toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
+import TextInput from 'src/views/common/TextInput'
+import Button from 'src/views/common/Button'
 
 @inject('notesStore')
 @observer
@@ -10,19 +12,19 @@ class NewNoteForm extends Component {
   title = ''
 
   @observable
-  date = ''
+  date = new Date().toJSON()
 
   @observable
   text = ''
 
   @action
-  handleTitleChange = e => (this.title = e.target.value)
+  handleTitleChange = val => (this.title = val)
 
   @action
-  handleDateChange = e => (this.date = new Date(e.target.value).toJSON())
+  handleDateChange = val => (this.date = new Date(val).toJSON())
 
   @action
-  handleTextChange = e => (this.text = e.target.value)
+  handleTextChange = val => (this.text = val)
 
   handleSubmit = e => {
     e.preventDefault()
@@ -36,20 +38,25 @@ class NewNoteForm extends Component {
     this.props.notesStore.addNewNote(note).then(() => this.props.history.push('/'))
   }
 
+  getReadableDate = () => this.date.split('T')[0]
+
   render() {
     return (
-      <section>
+      <section className="new-note">
         <h3>New note</h3>
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="note-title">Title</label>
-          <input type="text" id="note-title" onChange={this.handleTitleChange} />
-          <label htmlFor="note-date">Date</label>
-          <input type="date" id="note-date" onChange={this.handleDateChange} />
-          <label htmlFor="note-text">Text</label>
-          <textarea id="note-text" onChange={this.handleTextChange} />
-          <button type="submit">submit</button>
+          <TextInput label="Title" onChange={this.handleTitleChange} value={this.title} />
+          <TextInput label="Date" onChange={this.handleDateChange} value={this.getReadableDate()} />
+          <TextInput
+            area
+            label="Text"
+            onChange={this.handleTextChange}
+            value={this.text}
+            placeholder="Type something..."
+          />
+          <Button color="green" type="submit" content="submit" />
           <Link to="/">
-            <button type="button">cancel</button>
+            <Button type="button" content="cancel" />
           </Link>
         </form>
       </section>
