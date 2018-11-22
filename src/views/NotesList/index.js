@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
+import moment from 'moment'
 import { Link } from 'react-router-dom'
 import NotesListItem from './components/NotesListItem'
 
@@ -8,8 +9,11 @@ import NotesListItem from './components/NotesListItem'
 @observer
 class NotesList extends Component {
   componentDidMount() {
-    const date = new Date(this.props.match.params.date).toISOString()
-    this.props.notesStore.getNotes({ from: date, to: date })
+    const date = moment(this.props.match.params.date)
+    const from = date.format()
+    const to = date.endOf('day').format()
+
+    this.props.notesStore.getNotes({ from, to })
   }
 
   render() {
