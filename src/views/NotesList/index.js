@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import NotesListItem from './components/NotesListItem'
+import Button from 'src/views/common/Button'
 
 @inject('notesStore')
 @observer
@@ -26,9 +27,7 @@ class NotesList extends Component {
           <ul>
             {notes.map(note => (
               <li key={note.id}>
-                <Link to={`/notes/${note.id}`}>
-                  <NotesListItem {...toJS(note)} />
-                </Link>
+                <NotesListItem {...toJS(note)} />
               </li>
             ))}
           </ul>
@@ -36,7 +35,7 @@ class NotesList extends Component {
           <p>no notes were found.</p>
         )}
         <Link to="/">
-          <button type="button">return</button>
+          <Button type="button" content="return" />
         </Link>
       </div>
     )

@@ -1,0 +1,20 @@
+.notes-list-item {
+  display: block;
+  padding: 10px 20px;
+  width: 300px;
+  color: $textBlack;
+  text-decoration: none;
+
+  &:hover {
+    background: $btnDefault;
+  }
+
+  &__heading {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  &__text {
+    margin: 0;
+  }
+}

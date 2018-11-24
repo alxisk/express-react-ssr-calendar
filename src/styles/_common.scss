@@ -13,12 +13,19 @@ html {
 body {
   font-family: $baseFont;
   background: $bgMain;
+  background-size: auto;
+  background-repeat: no-repeat;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
 }
 
 button,
