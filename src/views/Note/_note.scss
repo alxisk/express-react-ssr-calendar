@@ -1,0 +1,10 @@
+.note {
+  width: 400px;
+
+  &__date {
+    margin-bottom: 15px;
+    font-size: 14px;
+    line-height: 14px;
+    color: $textSecondary;
+  }
+}

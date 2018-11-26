@@ -9,7 +9,11 @@ class NotesStore {
   setNotes = notes => this.notes.replace(notes)
 
   @action
-  addNote = note => this.notes.push(note)
+  addNote = newNote => {
+    if (!this.notes.find(note => note.id === newNote.id)) {
+      this.notes.push(newNote)
+    }
+  }
 
   @action
   getNotes = options => fetchNotes(options).then(notes => this.setNotes(notes))

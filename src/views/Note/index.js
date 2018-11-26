@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { toJS } from 'mobx'
+import moment from 'moment'
+import { Link } from 'react-router-dom'
+import Button from 'src/views/common/Button'
+
+const formatDate = date => moment(date).format('YYYY-MM-DD')
 
 @inject('notesStore')
 @observer
@@ -9,8 +14,13 @@ class Note extends Component {
     this.props.notesStore.getSingleNote(this.noteId)
   }
 
-  deleteNote = () =>
-    this.props.notesStore.deleteNote(this.noteId).then(() => this.props.history.push('/'))
+  deleteNote = () => {
+    const formattedDate = formatDate(this.note.date)
+
+    this.props.notesStore
+      .deleteNote(this.noteId)
+      .then(() => this.props.history.push(`/notes/${formattedDate}`))
+  }
 
   get noteId() {
     return this.props.match.params.noteId
@@ -25,14 +35,19 @@ class Note extends Component {
       return null
     }
 
-    const { title, text } = this.note
+    const { title, text, date } = this.note
+    const formattedDate = formatDate(date)
 
     return (
-      <div>
+      <div className="note">
         <h2>{title}</h2>
+        <p className="note__date">{formattedDate}</p>
         <div>
-          <button onClick={this.deleteNote}>delete</button>
-          <button>change</button>
+          <Link to={`/notes/${formattedDate}`}>
+            <Button content="return" />
+          </Link>
+          <Button content="change" />
+          <Button onClick={this.deleteNote} content="delete" />
         </div>
         <p>{text}</p>
       </div>
