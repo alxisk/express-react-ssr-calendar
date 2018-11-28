@@ -43,6 +43,10 @@ class NoteForm extends Component {
   handleSubmit = e => {
     e.preventDefault()
 
+    if (validateDate(this.date) || validateText(this.text)) {
+      return
+    }
+
     const data = {
       title: this.title || truncate(this.text, { length: 20, separator: ' ' }),
       date: moment(this.date).format(),
