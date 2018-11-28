@@ -35,6 +35,7 @@ class Note extends Component {
 
     const { title, text, date } = this.note
     const formattedDate = formatDate(date)
+    const paragraphs = text.split(/\r\n|\n/)
 
     return (
       <div className="note">
@@ -49,7 +50,11 @@ class Note extends Component {
           </Link>
           <Button onClick={this.deleteNote} content="delete" />
         </div>
-        <p>{text}</p>
+        <div className="note__text">
+          {paragraphs.map((str, idx) => (
+            <p key={idx}>{str}</p>
+          ))}
+        </div>
       </div>
     )
   }
