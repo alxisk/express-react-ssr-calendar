@@ -3,11 +3,11 @@ import { observable, action, toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import truncate from 'lodash/truncate'
 import moment from 'moment'
+import formatDate from 'src/utils/formatDate'
 import { Link } from 'react-router-dom'
 import TextInput from 'src/views/common/TextInput'
 import Button from 'src/views/common/Button'
 
-const DATE_FORMAT = 'YYYY-MM-DD'
 const validateDate = date => (moment(date).isValid() ? null : 'invalid date')
 const validateText = text => (text.length > 3 ? null : 'text must contain 3 or more characters')
 
@@ -31,7 +31,7 @@ class NewNoteForm extends Component {
     const date = moment(val)
 
     if (date.isValid()) {
-      e.target.value = date.format(DATE_FORMAT)
+      e.target.value = formatDate(date)
     }
 
     this.setDate(val)
@@ -58,7 +58,7 @@ class NewNoteForm extends Component {
       .startOf('day')
       .format())
 
-  getInitialDate = () => moment().format(DATE_FORMAT)
+  getInitialDate = () => formatDate(Date.now())
 
   render() {
     return (

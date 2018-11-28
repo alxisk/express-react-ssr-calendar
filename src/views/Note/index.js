@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { toJS } from 'mobx'
-import moment from 'moment'
+import formatDate from 'src/utils/formatDate'
 import { Link } from 'react-router-dom'
 import Button from 'src/views/common/Button'
-
-const formatDate = date => moment(date).format('YYYY-MM-DD')
 
 @inject('notesStore')
 @observer
