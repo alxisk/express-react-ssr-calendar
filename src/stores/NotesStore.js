@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx'
-import { createNote, fetchNotes, fetchSingleNote, deleteNote } from '../api'
+import { createNote, fetchNotes, fetchSingleNote, updateNote, deleteNote } from '../api'
 
 class NotesStore {
   @observable
@@ -9,20 +9,16 @@ class NotesStore {
   setNotes = notes => this.notes.replace(notes)
 
   @action
-  addNote = newNote => {
-    if (!this.notes.find(note => note.id === newNote.id)) {
-      this.notes.push(newNote)
-    }
-  }
-
-  @action
   getNotes = options => fetchNotes(options).then(notes => this.setNotes(notes))
 
   @action
-  getSingleNote = id => fetchSingleNote(id).then(note => this.addNote(note))
+  getSingleNote = id => fetchSingleNote(id).then(note => this.setNotes([note]))
 
   @action
   addNewNote = note => createNote(note).then(newNote => this.notes.push(newNote))
+
+  @action
+  updateNote = (id, data) => updateNote(id, data)
 
   @action
   deleteNote = id =>

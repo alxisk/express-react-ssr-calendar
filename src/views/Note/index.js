@@ -44,7 +44,9 @@ class Note extends Component {
           <Link to={`/notes/${formattedDate}`}>
             <Button content="return" />
           </Link>
-          <Button content="change" />
+          <Link to={`${window.location.pathname}/change`}>
+            <Button content="change" />
+          </Link>
           <Button onClick={this.deleteNote} content="delete" />
         </div>
         <p>{text}</p>

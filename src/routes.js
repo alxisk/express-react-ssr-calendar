@@ -1,7 +1,8 @@
 import Calendar from './views/Calendar'
 import NotesList from './views/NotesList'
-import NewNoteForm from './views/NewNote'
+import NoteForm from './views/NewNote'
 import Note from './views/Note'
+import ChangeNote from './views/ChangeNote'
 
 const calendarDateRe = `[0-9]{4}-[0-9]{2}`
 const dateRe = `[0-9]{4}-[0-9]{2}-[0-9]{2}`
@@ -14,11 +15,15 @@ const routes = [
   },
   {
     path: '/new-note',
-    component: NewNoteForm,
+    component: NoteForm,
   },
   {
     path: `/notes/:date(${dateRe})`,
     component: NotesList,
+  },
+  {
+    path: `/notes/:noteId(${uuidRe})/change`,
+    component: ChangeNote,
   },
   {
     path: `/notes/:noteId(${uuidRe})`,

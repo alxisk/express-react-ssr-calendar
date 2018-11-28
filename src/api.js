@@ -28,6 +28,16 @@ export const fetchSingleNote = id => {
     .then(json => json.data)
 }
 
+export const updateNote = (id, data) => {
+  return fetch(`/api/notes/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ data }),
+    headers,
+  })
+    .then(res => res.json())
+    .then(json => json.data)
+}
+
 export const deleteNote = id => {
   return fetch(`/api/notes/${id}`, {
     method: 'DELETE',
