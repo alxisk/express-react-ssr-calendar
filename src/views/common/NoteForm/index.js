@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { observable, action, toJS } from 'mobx'
+import PropTypes from 'prop-types'
+import { observable, action } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import truncate from 'lodash/truncate'
 import moment from 'moment'
@@ -15,16 +16,18 @@ const validateText = text => (text.length > 3 ? null : 'text must contain 3 or m
 @observer
 class NoteForm extends Component {
   @observable
-  title = this.props.initialTitle || ''
+  title = this.props.initialTitle
 
   @observable
-  date = this.props.initialDate || this.getInitialDate()
+  date = this.props.initialDate
 
   @observable
-  text = this.props.initialText || ''
+  text = this.props.initialText
 
   @action
-  handleTitleChange = val => (this.title = val)
+  handleTitleChange = val => {
+    this.title = val
+  }
 
   @action
   handleDateChange = (val, e) => {
@@ -38,7 +41,9 @@ class NoteForm extends Component {
   }
 
   @action
-  handleTextChange = val => (this.text = val)
+  handleTextChange = val => {
+    this.text = val
+  }
 
   handleSubmit = e => {
     e.preventDefault()
@@ -52,19 +57,19 @@ class NoteForm extends Component {
       date: moment(this.date).format(),
       text: this.text,
     }
+    const { onSubmit } = this.props
 
-    if (this.props.onSubmit) {
-      this.props.onSubmit(data)
+    if (onSubmit) {
+      onSubmit(data)
     }
   }
 
   @action
-  setDate = (val = null) =>
-    (this.date = moment(val)
+  setDate = (val = null) => {
+    this.date = moment(val)
       .startOf('day')
-      .format())
-
-  getInitialDate = () => formatDate(Date.now())
+      .format()
+  }
 
   render() {
     const { submitTrigger, cancelTrigger } = this.props
@@ -91,12 +96,29 @@ class NoteForm extends Component {
           cancelTrigger()
         ) : (
           <Link to="/">
-            <Button type="button" content="cancel" />
+            <Button content="cancel" />
           </Link>
         )}
       </form>
     )
   }
+}
+
+NoteForm.defaultProps = {
+  initialTitle: '',
+  initialDate: formatDate(Date.now()),
+  initialText: '',
+  submitTrigger: null,
+  cancelTrigger: null,
+}
+
+NoteForm.propTypes = {
+  initialTitle: PropTypes.string,
+  initialDate: PropTypes.string,
+  initialText: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
+  submitTrigger: PropTypes.func,
+  cancelTrigger: PropTypes.func,
 }
 
 export default NoteForm

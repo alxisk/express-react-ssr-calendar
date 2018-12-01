@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { computed, observable, action, trace } from 'mobx'
-import { inject, observer } from 'mobx-react'
+import PropTypes from 'prop-types'
+import { inject, observer, PropTypes as mobxPropTypes } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
+import Button from 'src/views/common/Button'
 import MonthChanger from './components/MonthChanger'
 import MonthTable from './components/MonthTable'
-import Button from 'src/views/common/Button'
 
 @inject('notesStore')
 @observer
@@ -15,25 +15,27 @@ class Calendar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
+    const { location } = this.props
+
+    if (location.pathname !== prevProps.location.pathname) {
       this.fetchNotes()
     }
   }
 
-  fetchNotes = () => {
-    const from = this.date.startOf('month').format()
-    const to = this.date.endOf('month').format()
-
-    this.props.notesStore.getNotes({ from, to })
-  }
-
   get date() {
-    const { date } = this.props.match.params
+    const {
+      match: {
+        params: { date },
+      },
+    } = this.props
+
     return date ? moment(date) : moment()
   }
 
   get days() {
-    const { notes } = this.props.notesStore
+    const {
+      notesStore: { notes },
+    } = this.props
     const currentMonth = this.date.month()
     const currentYear = this.date.year()
     const daysInCurrentMonth = this.date.endOf('month').date()
@@ -59,6 +61,16 @@ class Calendar extends Component {
     })
   }
 
+  fetchNotes = () => {
+    const {
+      notesStore: { getNotes },
+    } = this.props
+    const from = this.date.startOf('month').format()
+    const to = this.date.endOf('month').format()
+
+    getNotes({ from, to })
+  }
+
   render() {
     return (
       <div className="calendar">
@@ -70,6 +82,21 @@ class Calendar extends Component {
       </div>
     )
   }
+}
+
+Calendar.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      date: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+}
+
+Calendar.wrappedComponent.propTypes = {
+  notesStore: mobxPropTypes.observableObject.isRequired,
 }
 
 export default Calendar

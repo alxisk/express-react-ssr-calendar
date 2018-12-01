@@ -22,24 +22,21 @@ export const fetchNotes = ({ from, to }) => {
     .then(json => json.data)
 }
 
-export const fetchSingleNote = id => {
-  return fetch(`/api/notes/${id}`)
+export const fetchSingleNote = id =>
+  fetch(`/api/notes/${id}`)
     .then(res => res.json())
     .then(json => json.data)
-}
 
-export const updateNote = (id, data) => {
-  return fetch(`/api/notes/${id}`, {
+export const updateNote = (id, data) =>
+  fetch(`/api/notes/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({ data }),
     headers,
   })
     .then(res => res.json())
     .then(json => json.data)
-}
 
-export const deleteNote = id => {
-  return fetch(`/api/notes/${id}`, {
+export const deleteNote = id =>
+  fetch(`/api/notes/${id}`, {
     method: 'DELETE',
   })
-}

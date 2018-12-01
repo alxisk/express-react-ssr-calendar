@@ -3,22 +3,32 @@ import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import NotesListItem from './components/NotesListItem'
 import Button from 'src/views/common/Button'
+import NotesListItem from './components/NotesListItem'
 
 @inject('notesStore')
 @observer
 class NotesList extends Component {
   componentDidMount() {
-    const date = moment(this.props.match.params.date)
+    const {
+      match: {
+        params: { date: rawDate },
+      },
+    } = this.props
+    const date = moment(rawDate)
+    const {
+      notesStore: { getNotes },
+    } = this.props
     const from = date.format()
     const to = date.endOf('day').format()
 
-    this.props.notesStore.getNotes({ from, to })
+    getNotes({ from, to })
   }
 
   render() {
-    const { notes } = this.props.notesStore
+    const {
+      notesStore: { notes },
+    } = this.props
 
     return (
       <div>
@@ -35,7 +45,7 @@ class NotesList extends Component {
           <p>no notes were found.</p>
         )}
         <Link to="/">
-          <Button type="button" content="return" />
+          <Button content="return" />
         </Link>
       </div>
     )

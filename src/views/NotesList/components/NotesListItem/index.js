@@ -15,6 +15,7 @@ const NotesListItem = ({ id, title, text }) => {
 }
 
 NotesListItem.propTypes = {
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
 }

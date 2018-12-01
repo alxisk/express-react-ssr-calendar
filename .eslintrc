@@ -13,7 +13,9 @@
     "prettier"
   ],
   "rules": {
+    "react/destructuring-assignment": ["error", "always", { ignoreClassFields: true }],
     "react/jsx-filename-extension": "off",
+    "jsx-a11y/label-has-for": "off",
     "react/no-array-index-key": "off",
     "prettier/prettier": "error",
     "no-underscore-dangle": "off"

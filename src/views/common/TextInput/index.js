@@ -9,14 +9,15 @@ const HANDLER_NAMES = ['onChange', 'onBlur']
 
 const convertName = name => `handle${name.slice(2)}`
 
-const applyHandlers = (obj, props) =>
-  HANDLER_NAMES.forEach(name => (props[name] = obj[convertName(name)]))
-
 @observer
 class TextInput extends Component {
+  @observable
+  error = null
+
   constructor(props) {
     super(props)
 
+    /* eslint-disable react/destructuring-assignment */
     HANDLER_NAMES.forEach(name => {
       this[convertName(name)] = e => {
         if (this.props[name]) {
@@ -29,16 +30,16 @@ class TextInput extends Component {
         }
       }
     })
+    /* eslint-enable react/destructuring-assignment */
   }
 
-  @observable
-  error = null
-
   @action
-  setError = err => (this.error = err)
+  setError = err => {
+    this.error = err
+  }
 
   render() {
-    const { label, area, validate } = this.props
+    const { label, area } = this.props
     const id = uniqueId('text-input-')
     const className = area ? 'text-input text-input--area' : 'text-input'
     const elementProps = {
@@ -47,7 +48,9 @@ class TextInput extends Component {
       ...omit(this.props, ['label', 'area', 'validate', ...HANDLER_NAMES]),
     }
 
-    applyHandlers(this, elementProps)
+    HANDLER_NAMES.forEach(name => {
+      elementProps[name] = this[convertName(name)]
+    })
 
     return (
       <Fragment>

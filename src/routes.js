@@ -31,6 +31,9 @@ const routes = [
   },
 ]
 
-routes.forEach(route => (route.exact = true))
+routes.forEach(route => {
+  // eslint-disable-next-line no-param-reassign
+  route.exact = true
+})
 
 export default routes

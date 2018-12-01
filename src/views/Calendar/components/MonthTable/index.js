@@ -15,7 +15,8 @@ const MonthTable = ({ days, date }) => {
       {chunk(daysWithOffset, 7).map((week, idx) => (
         <div className="month-table__row" key={idx}>
           {week.map(
-            (day = {}, idx) => (day.num ? <MonthTableCell key={idx} date={date} day={day} /> : null)
+            (day = {}, weekIdx) =>
+              day.num ? <MonthTableCell key={weekIdx} date={date} day={day} /> : null
           )}
         </div>
       ))}
@@ -26,11 +27,11 @@ const MonthTable = ({ days, date }) => {
 MonthTable.propTypes = {
   days: PropTypes.arrayOf(
     PropTypes.shape({
-      num: PropTypes.number,
+      num: PropTypes.number.isRequired,
       notes: PropTypes.arrayOf(PropTypes.any),
     })
-  ),
-  data: PropTypes.objectOf(PropTypes.any),
+  ).isRequired,
+  date: PropTypes.objectOf(PropTypes.any).isRequired,
 }
 
 export default MonthTable

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import truncate from 'lodash/truncate'
-import moment from 'moment'
+import PropTypes from 'prop-types'
+import { inject, observer, PropTypes as mobxPropTypes } from 'mobx-react'
 import formatDate from 'src/utils/formatDate'
 import { Link } from 'react-router-dom'
 import NoteForm from 'src/views/common/NoteForm'
@@ -11,16 +10,24 @@ import Button from 'src/views/common/Button'
 @observer
 class ChangeNote extends Component {
   componentDidMount() {
-    this.props.notesStore.getSingleNote(this.props.match.params.noteId)
+    const {
+      match: {
+        params: { noteId },
+      },
+      notesStore: { getSingleNote },
+    } = this.props
+
+    getSingleNote(noteId)
   }
 
-  handleSubmit = data =>
-    this.props.notesStore
-      .updateNote(this.noteId, data)
-      .then(() => this.props.history.push(this.noteLink))
-
   get noteId() {
-    return this.props.match.params.noteId
+    const {
+      match: {
+        params: { noteId },
+      },
+    } = this.props
+
+    return noteId
   }
 
   get noteLink() {
@@ -28,7 +35,20 @@ class ChangeNote extends Component {
   }
 
   get note() {
-    return this.props.notesStore.notes.find(({ id }) => id === this.noteId)
+    const {
+      notesStore: { notes },
+    } = this.props
+
+    return notes.find(({ id }) => id === this.noteId)
+  }
+
+  handleSubmit = data => {
+    const {
+      notesStore: { updateNote },
+      history,
+    } = this.props
+
+    updateNote(this.noteId, data).then(() => history.push(this.noteLink))
   }
 
   render() {
@@ -46,7 +66,7 @@ class ChangeNote extends Component {
           submitTrigger={() => <Button color="green" type="submit" content="apply" />}
           cancelTrigger={() => (
             <Link to={this.noteLink}>
-              <Button type="button" content="cancel" />
+              <Button content="cancel" />
             </Link>
           )}
           initialTitle={title}
@@ -56,6 +76,21 @@ class ChangeNote extends Component {
       </section>
     )
   }
+}
+
+ChangeNote.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      noteId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+}
+
+ChangeNote.wrappedComponent.propTypes = {
+  notesStore: mobxPropTypes.observableObject.isRequired,
 }
 
 export default ChangeNote

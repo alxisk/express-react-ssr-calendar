@@ -11,7 +11,7 @@
     "build": "webpack --mode=production --env.NODE_ENV=production",
     "test": "echo \"Error: no test specified\" && exit 1",
     "precommit": "lint-staged",
-    "lint": "eslint src/**/*.js",
+    "lint": "eslint './src/**/*.js'",
     "format": "prettier --write src/**/*.js"
   },
   "repository": {

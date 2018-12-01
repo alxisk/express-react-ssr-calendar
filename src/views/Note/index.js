@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import { toJS } from 'mobx'
+import PropTypes from 'prop-types'
+import { inject, observer, PropTypes as mobxPropTypes } from 'mobx-react'
 import formatDate from 'src/utils/formatDate'
 import { Link } from 'react-router-dom'
 import Button from 'src/views/common/Button'
@@ -9,23 +9,39 @@ import Button from 'src/views/common/Button'
 @observer
 class Note extends Component {
   componentDidMount() {
-    this.props.notesStore.getSingleNote(this.noteId)
-  }
+    const {
+      notesStore: { getSingleNote },
+    } = this.props
 
-  deleteNote = () => {
-    const formattedDate = formatDate(this.note.date)
-
-    this.props.notesStore
-      .deleteNote(this.noteId)
-      .then(() => this.props.history.push(`/notes/${formattedDate}`))
+    getSingleNote(this.noteId)
   }
 
   get noteId() {
-    return this.props.match.params.noteId
+    const {
+      match: {
+        params: { noteId },
+      },
+    } = this.props
+
+    return noteId
   }
 
   get note() {
-    return this.props.notesStore.notes.find(({ id }) => id === this.noteId)
+    const {
+      notesStore: { notes },
+    } = this.props
+
+    return notes.find(({ id }) => id === this.noteId)
+  }
+
+  deleteNote = () => {
+    const {
+      notesStore: { deleteNote },
+      history,
+    } = this.props
+    const formattedDate = formatDate(this.note.date)
+
+    deleteNote(this.noteId).then(() => history.push(`/notes/${formattedDate}`))
   }
 
   render() {
@@ -58,6 +74,21 @@ class Note extends Component {
       </div>
     )
   }
+}
+
+Note.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      noteId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+}
+
+Note.wrappedComponent.propTypes = {
+  notesStore: mobxPropTypes.observableObject.isRequired,
 }
 
 export default Note

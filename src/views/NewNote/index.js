@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
-import { inject } from 'mobx-react'
-import truncate from 'lodash/truncate'
-import moment from 'moment'
+import PropTypes from 'prop-types'
+import { inject, PropTypes as mobxPropTypes } from 'mobx-react'
 import NoteForm from 'src/views/common/NoteForm'
-import Button from 'src/views/common/Button'
 
 @inject('notesStore')
 class NewNote extends Component {
-  handleSubmit = data =>
-    this.props.notesStore.addNewNote(data).then(() => this.props.history.push('/'))
+  handleSubmit = data => {
+    const {
+      notesStore: { addNewNote },
+      history,
+    } = this.props
+
+    addNewNote(data).then(() => history.push('/'))
+  }
 
   render() {
     return (
@@ -18,6 +22,16 @@ class NewNote extends Component {
       </section>
     )
   }
+}
+
+NewNote.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+}
+
+NewNote.wrappedComponent.propTypes = {
+  notesStore: mobxPropTypes.observableObject.isRequired,
 }
 
 export default NewNote
