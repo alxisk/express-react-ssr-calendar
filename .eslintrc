@@ -1,10 +1,11 @@
 {
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "mocha": true
   },
   "parser": "babel-eslint",
-  "plugins": ["import", "jsx-a11y", "react", "prettier"],
+  "plugins": ["import", "jsx-a11y", "react", "prettier", "chai-friendly"],
   "extends": [
     "plugin:import/errors",
     "plugin:jsx-a11y/recommended",
@@ -18,7 +19,10 @@
     "jsx-a11y/label-has-for": "off",
     "react/no-array-index-key": "off",
     "prettier/prettier": "error",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-unused-expressions": "off",
+    "chai-friendly/no-unused-expressions": "error",
+    "no-shadow": "off"
   },
   "settings": {
     "import/resolver": {
