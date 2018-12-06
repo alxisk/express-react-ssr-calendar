@@ -1,13 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import chunk from 'lodash/chunk'
-import moment from 'moment'
 import MonthTableCell from './components/MonthTableCell'
 
 const MonthTable = ({ days, date }) => {
-  const offset = moment(date)
-    .startOf('month')
-    .isoWeekday()
+  const offset = date.startOf('month').isoWeekday()
   const daysWithOffset = Array.from({ length: offset - 1 }).concat(days)
 
   return (

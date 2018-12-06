@@ -35,4 +35,6 @@ MonthChanger.propTypes = {
   date: PropTypes.objectOf(PropTypes.any).isRequired,
 }
 
+export { MonthChanger as MonthChangerWithoutRouter }
+
 export default withRouter(MonthChanger)
